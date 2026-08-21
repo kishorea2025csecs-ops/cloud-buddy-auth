@@ -14,7 +14,302 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ai_lessons: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          path: string
+          topic_id: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          path: string
+          topic_id: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          path?: string
+          topic_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_lessons_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attempts: {
+        Row: {
+          concept: string | null
+          created_at: string
+          id: string
+          is_correct: boolean
+          mistake_type: string | null
+          question_id: string
+          selected_index: number | null
+          stage: string
+          synced_offline: boolean
+          time_ms: number
+          topic_id: string
+          user_id: string
+        }
+        Insert: {
+          concept?: string | null
+          created_at?: string
+          id?: string
+          is_correct: boolean
+          mistake_type?: string | null
+          question_id: string
+          selected_index?: number | null
+          stage?: string
+          synced_offline?: boolean
+          time_ms?: number
+          topic_id: string
+          user_id: string
+        }
+        Update: {
+          concept?: string | null
+          created_at?: string
+          id?: string
+          is_correct?: boolean
+          mistake_type?: string | null
+          question_id?: string
+          selected_index?: number | null
+          stage?: string
+          synced_offline?: boolean
+          time_ms?: number
+          topic_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attempts_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attempts_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learner_topics: {
+        Row: {
+          accuracy: number
+          avg_time_ms: number
+          created_at: string
+          id: string
+          knowledge_level: string | null
+          last_stage: string
+          mastery: number
+          path: string | null
+          self_level: string | null
+          streak: number
+          strengths: string[]
+          topic_id: string
+          updated_at: string
+          user_id: string
+          weaknesses: string[]
+        }
+        Insert: {
+          accuracy?: number
+          avg_time_ms?: number
+          created_at?: string
+          id?: string
+          knowledge_level?: string | null
+          last_stage?: string
+          mastery?: number
+          path?: string | null
+          self_level?: string | null
+          streak?: number
+          strengths?: string[]
+          topic_id: string
+          updated_at?: string
+          user_id: string
+          weaknesses?: string[]
+        }
+        Update: {
+          accuracy?: number
+          avg_time_ms?: number
+          created_at?: string
+          id?: string
+          knowledge_level?: string | null
+          last_stage?: string
+          mastery?: number
+          path?: string | null
+          self_level?: string | null
+          streak?: number
+          strengths?: string[]
+          topic_id?: string
+          updated_at?: string
+          user_id?: string
+          weaknesses?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learner_topics_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          grade: string | null
+          id: string
+          region: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          grade?: string | null
+          id: string
+          region?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          grade?: string | null
+          id?: string
+          region?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          concept: string
+          correct_index: number
+          created_at: string
+          explanation: string
+          id: string
+          level: string
+          options: Json
+          prompt: string
+          stage: string
+          topic_id: string
+        }
+        Insert: {
+          concept: string
+          correct_index: number
+          created_at?: string
+          explanation: string
+          id?: string
+          level: string
+          options: Json
+          prompt: string
+          stage?: string
+          topic_id: string
+        }
+        Update: {
+          concept?: string
+          correct_index?: number
+          created_at?: string
+          explanation?: string
+          id?: string
+          level?: string
+          options?: Json
+          prompt?: string
+          stage?: string
+          topic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subjects: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      topics: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+          subject_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+          subject_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          subject_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topics_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
