@@ -442,19 +442,20 @@ function QuestionRunner({
   }
 
   function submit(choice: number) {
-    if (selected !== null) return;
+    const q = question;
+    if (!q || selected !== null) return;
     setSelected(choice);
     const timeMs = Date.now() - startedAt.current;
-    const correct = choice === question.correct_index;
+    const correct = choice === q.correct_index;
     const record: AnswerRecord = {
-      question_id: question.id,
-      topic_id: question.topic_id,
+      question_id: q.id,
+      topic_id: q.topic_id,
       stage: stageName,
       selected_index: choice,
       is_correct: correct,
       time_ms: timeMs,
-      concept: question.concept,
-      mistake_type: correct ? null : classifyMistake(question, choice, timeMs),
+      concept: q.concept,
+      mistake_type: correct ? null : classifyMistake(q, choice, timeMs),
     };
     const next = [...records, record];
     setRecords(next);
@@ -566,26 +567,27 @@ function AdaptiveQuiz({
   }
 
   function submit(choice: number) {
-    if (selected !== null) return;
+    const q = question;
+    if (!q || selected !== null) return;
     setSelected(choice);
     const timeMs = Date.now() - startedAt.current;
-    const correct = choice === question.correct_index;
+    const correct = choice === q.correct_index;
     const record: AnswerRecord = {
-      question_id: question.id,
-      topic_id: question.topic_id,
+      question_id: q.id,
+      topic_id: q.topic_id,
       stage: "quiz",
       selected_index: choice,
       is_correct: correct,
       time_ms: timeMs,
-      concept: question.concept,
-      mistake_type: correct ? null : classifyMistake(question, choice, timeMs),
+      concept: q.concept,
+      mistake_type: correct ? null : classifyMistake(q, choice, timeMs),
     };
     const next = [...records, record];
     setRecords(next);
-    const currentIdx = order.indexOf(question.level);
+    const currentIdx = order.indexOf(q.level);
     const nextLevel = order[Math.min(2, Math.max(0, currentIdx + (correct ? 1 : -1)))]!;
     window.setTimeout(() => {
-      const nextUsed = [...used, question.id];
+      const nextUsed = [...used, q.id];
       setUsed(nextUsed);
       setLevel(nextLevel);
       if (pool.filter((q) => !nextUsed.includes(q.id)).length === 0) onDone(next);
